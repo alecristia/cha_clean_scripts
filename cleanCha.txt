@@ -1,0 +1,8 @@
+
+for j in ../*/*/*.cha; do 
+	grep -v "^@" < $j | grep -v "^%" | tr -d "\t" | sed 's/\([0-9][0-9]*\)_\([0-9][0-9]*\)/%\1%\2/g' | tr "_" "-"  | tr -d "\n" | tr -d "\r" | tr '*' '\n'   | tr ":" "\t" | tr "%" "\t" | tr -s " " | sed 's/^$//' | awk -F'\t' 'NF==4 {print}' | awk  -F'\t' '{printf "%.1f %.1f %.3s\n", $3/1000, $4/1000, $1}' > $j.txt 
+
+
+	cat $j.txt | awk '{print $3}' | sort | uniq > $j.ppnt
+
+done
